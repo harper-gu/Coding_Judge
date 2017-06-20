@@ -5,6 +5,13 @@ var jsonParser = bodyParser.json();
 
 var problemService = require('../services/problemService');
 
+var nodeRestClient = require('node-rest-client').Client;
+var restClient = new nodeRestClient();
+
+var EXECUTOR_SERVER_URL = 'http://localhost:5000/build_and_run';
+
+restClient.registerMethod('build_and_run', EXECUTOR_SERVER_URL, 'POST');
+
 router.get('/problems', function(req, res) {
   problemService.getProblems()
     .then(problems => res.json(problems));
@@ -27,5 +34,26 @@ router.post('/problems', jsonParser, function(req, res) {
       res.status(400).send('Problem name already exists');
     });
 })
+
+router.post('/build_and_run', jsonParser, function(req, res) {
+  const code = req.body.userCode;
+  const lang = req.body.lang;
+  console.log('Ready to execute');
+  restClient.metods.build_and_run({
+    data : {
+      code : code,
+      lang : lang},
+    },
+    headers: { 'content-type' : 'application/josn'}
+  }, (data, response) = > {                          //callback
+    console.log('received from execution server');
+    const text = `Build Output: ${data['build']},
+      Execution Output: ${data['run']}`;
+      data['text'] = text;
+      res.json(data);
+    }
+  );
+}); 
+
 
 module.exports = router;
