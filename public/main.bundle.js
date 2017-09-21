@@ -1,144 +1,10 @@
 webpackJsonp([1,5],{
 
-/***/ 1008:
+/***/ 1010:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(436);
 
-
-/***/ }),
-
-/***/ 1012:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assets_colors__ = __webpack_require__(1013);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CollaborationService; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var CollaborationService = (function () {
-    function CollaborationService() {
-        this.clientsInfo = {}; //socketId + marker
-        this.clientNum = 0; //number of client expect self
-    }
-    CollaborationService.prototype.init = function (editor, sessionId) {
-        var _this = this;
-        this.collaborationSocket = io(window.location.origin, { query: 'message=' + 'Client is ready. Lets start' });
-        // this.collaboration_socket.on('message', (message) => {
-        //   console.log('message from server: '+ message);
-        // });
-        //listener for change event
-        this.collaborationSocket.on('change', function (delta) {
-            console.log('Change made by ' + delta);
-            delta = JSON.parse(delta);
-            editor.lastAppliedChange = delta;
-            editor.getSession().getDocument().applyDeltas([delta]);
-        });
-        //listerner for cursor move event
-        this.collaborationSocket.on('cursorMove', function (cursor) {
-            cursor = JSON.parse(cursor);
-            var x = cursor['row'];
-            var y = cursor['column'];
-            var changeClientId = cursor['socketId'];
-            var session = editor.getSession();
-            if (changeClientId in _this.clientsInfo) {
-                session.removeMarker(_this.clientsInfo[changeClientId]['marker']);
-            }
-            else {
-                _this.clientsInfo[changeClientId] = {};
-                var css = document.createElement('style');
-                css.type = 'text/css';
-                css.innerHTML = '.editor_cursor_' + changeClientId
-                    + '{ position: absolute; background: ' + __WEBPACK_IMPORTED_MODULE_1__assets_colors__["a" /* COLORS */][_this.clientNum] + ';'
-                    + 'z-index: 100; width: 3px !important; }';
-                document.body.appendChild(css);
-                _this.clientNum++;
-            }
-            //draw new marker
-            var Range = ace.require('ace/range').Range;
-            var newMarker = session.addMarker(new Range(x, y, x, y + 1), 'editor_cursor_' + changeClientId, true);
-            _this.clientsInfo[changeClientId]['marker'] = newMarker;
-        });
-    };
-    //emit change event
-    CollaborationService.prototype.change = function (delta) {
-        this.collaborationSocket.emit('change', delta);
-    };
-    //emit cursor move event
-    CollaborationService.prototype.cursorMove = function (cursor) {
-        this.collaborationSocket.emit('cursorMove', cursor);
-        console.log('cursor moves: ' + cursor);
-    };
-    CollaborationService.prototype.restoreBuffer = function () {
-        this.collaborationSocket.emit('restoreBuffer');
-    };
-    CollaborationService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(), 
-        __metadata('design:paramtypes', [])
-    ], CollaborationService);
-    return CollaborationService;
-}());
-//# sourceMappingURL=/Users/Harper/workplace/online_judge/oj-client/src/collaboration.service.js.map
-
-/***/ }),
-
-/***/ 1013:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COLORS; });
-var COLORS = [
-    "#0000ff",
-    "#a52a2a",
-    "#00ffff",
-    "#00008b",
-    "#008b8b",
-    "#a9a9a9",
-    "#006400",
-    "#bdb76b",
-    "#8b008b",
-    "#556b2f",
-    "#ff8c00",
-    "#9932cc",
-    "#8b0000",
-    "#e9967a",
-    "#9400d3",
-    "#ff00ff",
-    "#ffd700",
-    "#008000",
-    "#4b0082",
-    "#f0e68c",
-    "#add8e6",
-    "#e0ffff",
-    "#90ee90",
-    "#d3d3d3",
-    "#ffb6c1",
-    "#ffffe0",
-    "#00ff00",
-    "#ff00ff",
-    "#800000",
-    "#000080",
-    "#808000",
-    "#ffa500",
-    "#ffc0cb",
-    "#800080",
-    "#800080",
-    "#ff0000",
-    "#c0c0c0",
-    "#ffffff",
-    "#ffff00"
-];
-//# sourceMappingURL=/Users/Harper/workplace/online_judge/oj-client/src/colors.js.map
 
 /***/ }),
 
@@ -147,7 +13,7 @@ var COLORS = [
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(117);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProblemDetailComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -179,8 +45,8 @@ var ProblemDetailComponent = (function () {
     ProblemDetailComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-problem-detail',
-            template: __webpack_require__(741),
-            styles: [__webpack_require__(735)]
+            template: __webpack_require__(743),
+            styles: [__webpack_require__(737)]
         }),
         __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')), 
         __metadata('design:paramtypes', [Object, (typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === 'function' && _a) || Object])
@@ -227,8 +93,8 @@ var ProblemListComponent = (function () {
     ProblemListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-problem-list',
-            template: __webpack_require__(742),
-            styles: [__webpack_require__(736)]
+            template: __webpack_require__(744),
+            styles: [__webpack_require__(738)]
         }),
         __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')), 
         __metadata('design:paramtypes', [Object])
@@ -260,7 +126,7 @@ webpackEmptyContext.id = 435;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(530);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(569);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(571);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_app_module__ = __webpack_require__(561);
 
 
@@ -297,8 +163,8 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-root',
-            template: __webpack_require__(737),
-            styles: [__webpack_require__(731)]
+            template: __webpack_require__(739),
+            styles: [__webpack_require__(733)]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -312,15 +178,15 @@ var AppComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(169);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(521);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_routes__ = __webpack_require__(562);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_data_service__ = __webpack_require__(568);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_data_service__ = __webpack_require__(569);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_auth_service__ = __webpack_require__(567);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_auth_guard_service__ = __webpack_require__(566);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_collaboration_service__ = __webpack_require__(1012);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_collaboration_service__ = __webpack_require__(568);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__(560);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_problem_list_problem_list_component__ = __webpack_require__(362);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_problem_detail_problem_detail_component__ = __webpack_require__(361);
@@ -401,7 +267,7 @@ var AppModule = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_problem_list_problem_list_component__ = __webpack_require__(362);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_problem_detail_problem_detail_component__ = __webpack_require__(361);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return routing; });
@@ -437,7 +303,7 @@ var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* RouterModule 
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(117);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditorComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -461,9 +327,9 @@ var EditorComponent = (function () {
         this.language = 'Python';
         this.lauguages = ['Java', 'Python', 'C++'];
         this.defaultContent = {
-            'Java': "public class Solution",
-            'Python': "class Solution:",
-            'C++': ""
+            'Java': "public class Example {\npublic static void main(String[] args) {\n    // Type your Java code here\n    }\n}",
+            'C++': "#include <iostream>\nusing namespace std;\nint main() {\n  // Type your C++ code here\n  return 0;\n}",
+            'Python': "class Solution:\n   def example():\n       # Write your Python code here"
         };
     }
     EditorComponent.prototype.ngOnInit = function () {
@@ -499,7 +365,8 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.resetEditor = function () {
         console.log('resetting your editor');
-        this.output = '';
+        this.buildOutput = '';
+        this.runOutput = '';
         this.editor.getSession().setMode("ace/mode/" + this.language.toLowerCase());
         this.editor.setValue(this.defaultContent[this.language]);
     };
@@ -513,7 +380,8 @@ var EditorComponent = (function () {
     EditorComponent.prototype.submit = function () {
         var _this = this;
         console.log('submit');
-        this.output = '';
+        this.buildOutput = '';
+        this.runOutput = '';
         var userCode = this.editor.getValue();
         console.log('submitting ' + userCode);
         var code = {
@@ -521,13 +389,17 @@ var EditorComponent = (function () {
             lang: this.language.toLocaleLowerCase()
         };
         this.data.buildAndRun(code)
-            .then(function (res) { return _this.output = res.text; });
+            .then(function (res) {
+            console.log(res);
+            _this.buildOutput = res.build;
+            _this.runOutput = res.run;
+        });
     };
     EditorComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-editor',
-            template: __webpack_require__(738),
-            styles: [__webpack_require__(732)]
+            template: __webpack_require__(740),
+            styles: [__webpack_require__(734)]
         }),
         __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('collaboration')),
         __param(1, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')), 
@@ -581,8 +453,8 @@ var NavbarComponent = (function () {
     NavbarComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-navbar',
-            template: __webpack_require__(739),
-            styles: [__webpack_require__(733)]
+            template: __webpack_require__(741),
+            styles: [__webpack_require__(735)]
         }),
         __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('auth')), 
         __metadata('design:paramtypes', [Object])
@@ -635,8 +507,8 @@ var NewProblemComponent = (function () {
     NewProblemComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-new-problem',
-            template: __webpack_require__(740),
-            styles: [__webpack_require__(734)]
+            template: __webpack_require__(742),
+            styles: [__webpack_require__(736)]
         }),
         __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')), 
         __metadata('design:paramtypes', [Object])
@@ -652,7 +524,7 @@ var NewProblemComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(117);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuardService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -699,9 +571,9 @@ var AuthGuardService = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_jwt__ = __webpack_require__(570);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_jwt__ = __webpack_require__(572);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_jwt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular2_jwt__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(117);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -770,7 +642,91 @@ var AuthService = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(744);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assets_colors__ = __webpack_require__(570);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CollaborationService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CollaborationService = (function () {
+    function CollaborationService() {
+        this.clientsInfo = {}; //socketId + marker
+        this.clientNum = 0; //number of client expect self
+    }
+    CollaborationService.prototype.init = function (editor, sessionId) {
+        var _this = this;
+        this.collaborationSocket = io(window.location.origin, { query: 'message=' + 'Client is ready. Lets start' });
+        // this.collaboration_socket.on('message', (message) => {
+        //   console.log('message from server: '+ message);
+        // });
+        //listener for change event
+        this.collaborationSocket.on('change', function (delta) {
+            console.log('Change made by ' + delta);
+            delta = JSON.parse(delta);
+            editor.lastAppliedChange = delta;
+            editor.getSession().getDocument().applyDeltas([delta]);
+        });
+        //listerner for cursor move event
+        this.collaborationSocket.on('cursorMove', function (cursor) {
+            cursor = JSON.parse(cursor);
+            var x = cursor['row'];
+            var y = cursor['column'];
+            var changeClientId = cursor['socketId'];
+            var session = editor.getSession();
+            if (changeClientId in _this.clientsInfo) {
+                session.removeMarker(_this.clientsInfo[changeClientId]['marker']);
+            }
+            else {
+                _this.clientsInfo[changeClientId] = {};
+                var css = document.createElement('style');
+                css.type = 'text/css';
+                css.innerHTML = '.editor_cursor_' + changeClientId
+                    + '{ position: absolute; background: ' + __WEBPACK_IMPORTED_MODULE_1__assets_colors__["a" /* COLORS */][_this.clientNum] + ';'
+                    + 'z-index: 100; width: 3px !important; }';
+                document.body.appendChild(css);
+                _this.clientNum++;
+            }
+            //draw new marker
+            var Range = ace.require('ace/range').Range;
+            var newMarker = session.addMarker(new Range(x, y, x, y + 1), 'editor_cursor_' + changeClientId, true);
+            _this.clientsInfo[changeClientId]['marker'] = newMarker;
+        });
+    };
+    //emit change event
+    CollaborationService.prototype.change = function (delta) {
+        this.collaborationSocket.emit('change', delta);
+    };
+    //emit cursor move event
+    CollaborationService.prototype.cursorMove = function (cursor) {
+        this.collaborationSocket.emit('cursorMove', cursor);
+        console.log('cursor moves: ' + cursor);
+    };
+    CollaborationService.prototype.restoreBuffer = function () {
+        this.collaborationSocket.emit('restoreBuffer');
+    };
+    CollaborationService = __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(), 
+        __metadata('design:paramtypes', [])
+    ], CollaborationService);
+    return CollaborationService;
+}());
+//# sourceMappingURL=/Users/Harper/workplace/online_judge/oj-client/src/collaboration.service.js.map
+
+/***/ }),
+
+/***/ 569:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(746);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__(407);
@@ -836,7 +792,7 @@ var DataService = (function () {
             .toPromise()
             .then(function (res) {
             console.log(res);
-            res.json();
+            return res.json();
         })
             .catch(this.handleError);
     };
@@ -855,7 +811,57 @@ var DataService = (function () {
 
 /***/ }),
 
-/***/ 569:
+/***/ 570:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COLORS; });
+var COLORS = [
+    "#0000ff",
+    "#a52a2a",
+    "#00ffff",
+    "#00008b",
+    "#008b8b",
+    "#a9a9a9",
+    "#006400",
+    "#bdb76b",
+    "#8b008b",
+    "#556b2f",
+    "#ff8c00",
+    "#9932cc",
+    "#8b0000",
+    "#e9967a",
+    "#9400d3",
+    "#ff00ff",
+    "#ffd700",
+    "#008000",
+    "#4b0082",
+    "#f0e68c",
+    "#add8e6",
+    "#e0ffff",
+    "#90ee90",
+    "#d3d3d3",
+    "#ffb6c1",
+    "#ffffe0",
+    "#00ff00",
+    "#ff00ff",
+    "#800000",
+    "#000080",
+    "#808000",
+    "#ffa500",
+    "#ffc0cb",
+    "#800080",
+    "#800080",
+    "#ff0000",
+    "#c0c0c0",
+    "#ffffff",
+    "#ffff00"
+];
+//# sourceMappingURL=/Users/Harper/workplace/online_judge/oj-client/src/colors.js.map
+
+/***/ }),
+
+/***/ 571:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -871,20 +877,6 @@ var environment = {
 
 /***/ }),
 
-/***/ 731:
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ 732:
-/***/ (function(module, exports) {
-
-module.exports = "@media screen {\n #editor {\n   height: 600px;\n }\n .lang-select {\n   width: 100px;\n   margin-right: 10px;\n }\n header .btn {\n   margin: 0 5px;\n }\n footer .btn {\n   margin: 0 5px;\n }\n .editor-footer, .editor-header {\n   margin: 10px 0;\n }\n .cursor {\n   /*position:absolute;*/\n   background: rgba(0, 250, 0, 0.5);\n   z-index: 40;\n   width: 2px!important\n }\n}\n"
-
-/***/ }),
-
 /***/ 733:
 /***/ (function(module, exports) {
 
@@ -895,7 +887,7 @@ module.exports = ""
 /***/ 734:
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "@media screen {\n #editor {\n   height: 600px;\n }\n .lang-select {\n   width: 100px;\n   margin-right: 10px;\n }\n header .btn {\n   margin: 0 5px;\n }\n footer .btn {\n   margin: 0 5px;\n }\n .editor-footer, .editor-header {\n   margin: 10px 0;\n }\n .cursor {\n   /*position:absolute;*/\n   background: rgba(0, 250, 0, 0.5);\n   z-index: 40;\n   width: 2px!important\n }\n}\n"
 
 /***/ }),
 
@@ -909,51 +901,65 @@ module.exports = ""
 /***/ 736:
 /***/ (function(module, exports) {
 
-module.exports = ".difficulty {\n  min-width: 65px;\n  margin-right: 10px;\n}\n\n.label.difficulty {\n    padding-top: 0.6em;\n    color: #fbfdfa;\n    font-size: 12px;\n}\n\n.title {\n  font-size: 1.2em;\n}\n\n.diff-easy {\n  background-color: #42ebf4;\n}\n\n.diff-medium {\n  background-color: #ff6347;\n}\n\n.diff-hard {\n  background-color: #ba55dc;\n}\n\n.diff-super {\n  background-color: #8d16e2;\n}\n"
+module.exports = ""
 
 /***/ }),
 
 /***/ 737:
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
+module.exports = ""
 
 /***/ }),
 
 /***/ 738:
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n  <header>\n    <select class=\"form-control pull-left lang-select\" id=\"language\" name=\"language\"\n      [(ngModel)]=\"language\" (change)=\"setLanguage(language)\">\n      <option *ngFor=\"let lang of languages\" [value]=\"lang\">\n        {{lang}}\n      </option>\n    </select>\n    <button type=\"button\" class=\"btn btn-default\" data-toggle=\"modal\" data-target=\"#myModal\">\n      <span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span>\n    </button>\n    <!-- Modal -->\n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <h1 class=\"modal-title\" id=\"exampleModalLabel\">Reset?</h1>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            Are you sure you want to reset?\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\"\n              (click)=\"resetEditor()\">Reset</button>\n            <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Cancel</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n\n  <div class=\"row\">\n    <br/>\n    <div id=\"editor\">\n    </div>\n    <br/>\n  </div>\n  <footer>\n    <div class=\"row\">\n      {{ output }}\n    </div>\n    <button type=\"button\" class=\"btn btn-success pull-right\" (click)=\"submit()\">\n      Submit\n    </button>\n  </footer>\n</section>\n"
+module.exports = ".difficulty {\n  min-width: 65px;\n  margin-right: 10px;\n}\n\n.label.difficulty {\n    padding-top: 0.6em;\n    color: #fbfdfa;\n    font-size: 12px;\n}\n\n.title {\n  font-size: 1.2em;\n}\n\n.diff-easy {\n  background-color: #42ebf4;\n}\n\n.diff-medium {\n  background-color: #ff6347;\n}\n\n.diff-hard {\n  background-color: #ba55dc;\n}\n\n.diff-super {\n  background-color: #8d16e2;\n}\n"
 
 /***/ }),
 
 /***/ 739:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <nav class=\"navbar navbar-default\">\n    <div class=\"container-fluid\">\n      <!-- Brand and toggle get grouped for better mobile display -->\n      <div class=\"navbar-header\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n          <span class=\"sr-only\">Toggle navigation</span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"#\">{{ title }}</a>\n      </div>\n\n      <!-- Collect the nav links, forms, and other content for toggling -->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <form class=\"navbar-form navbar-left\">\n          <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n          </div>\n\n        </form>\n        <ul class=\"nav navbar-nav navbar-right\">\n          <li *ngIf=\"!auth.authenticated()\">\n            <form class=\"navbar-form\">\n              <button type=\"button\" class=\"btn btn-primary\" (click)=\"login()\">Sign in</button>\n            </form>\n          </li>\n          <li class=\"dropdown\" *ngIf=\"auth.authenticated()\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">{{ username }} <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a href=\"#\">My Profile</a></li>\n              <li><a href=\"#\">Another action</a></li>\n              <li><a href=\"#\">Something else here</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a (click)=\"logout()\">Log Out</a></li>\n            </ul>\n          </li>\n        </ul>\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n\n</div>\n"
+module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
 /***/ 740:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=container>\n  <form #formRef=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"problemName\">Problem name</label>\n      <input name=\"problemName\" id=\"problemName\" class=\"form-control\"\n      type=\"text\" required placeholder=\"Enter problem name\"\n      [(ngModel)]=\"newProblem.name\">\n    </div>\n    <div class=\"form-group\">\n      <label for=\"problemDesc\">Problem description</label>\n      <textarea name=\"problemDesc\" id=\"problemDesc\" class=\"form-control\"\n      placeholder=\"Enter problem description\"\n      [(ngModel)]=\"newProblem.desc\" rows=\"3\">\n      </textarea>\n    </div>\n    <div class=\"from-group\">\n      <label for=\"difficulty\">Difficulty</label>\n      <select class=\"form-control\" id=\"difficulty\" name=\"difficulty\"\n      [(ngModel)]=\"newProblem.difficulty\">\n        <option *ngFor=\"let difficulty of difficulties\" [value]=\"difficulty\">\n          {{ difficulty }}\n        </option>\n      </select>\n    </div>\n    <br/>\n    <div class=\"row\">\n      <div class=\"col-md-12\">\n        <button type=\"submit\" class=\"btn btn-primary pull-right\"\n        (click)=\"addProblem()\">Add problem</button>\n      </div>\n    </div>\n  </form>\n</div>\n<br/>\n"
+module.exports = "<section>\n  <header>\n    <select class=\"form-control pull-left lang-select\" id=\"language\" name=\"language\"\n      [(ngModel)]=\"language\" (change)=\"setLanguage(language)\">\n      <option *ngFor=\"let lang of languages\" [value]=\"lang\">\n        {{lang}}\n      </option>\n    </select>\n    <button type=\"button\" class=\"btn btn-default\" data-toggle=\"modal\" data-target=\"#myModal\">\n      <span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span>\n    </button>\n    <!-- Modal -->\n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <h1 class=\"modal-title\" id=\"exampleModalLabel\">Reset?</h1>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            Are you sure you want to reset?\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\"\n              (click)=\"resetEditor()\">Reset</button>\n            <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Cancel</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n\n  <div class=\"row\">\n    <br/>\n    <div id=\"editor\">\n    </div>\n    <br/>\n  </div>\n  <footer>\n    <div class=\"row\" *ngIf=\"buildOutput\">\n      <h5 class=\"text-info\">Syntax:</h5>\n      {{ buildOutput }}\n    </div>\n\n    <div class=\"row\" *ngIf=\"buildOutput\">\n      <h5 class=\"text-info\">Output:</h5>\n      {{ runOutput }}\n    </div>\n    <button type=\"button\" class=\"btn btn-success pull-right\" (click)=\"submit()\">\n      Submit\n    </button>\n  </footer>\n</section>\n"
 
 /***/ }),
 
 /***/ 741:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" *ngIf=\"problem\">\n  <div class=\"col-xs-12 col-md-4\">\n    <h2>\n      {{ problem.id }}. {{ problem.name }}\n    </h2>\n    <p>\n      {{ problem.desc }}\n    </p>\n  </div>\n  <div class=\"hidden-xs col-sm-12 col-md-8\">\n    <app-editor></app-editor>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container\">\n  <nav class=\"navbar navbar-default\">\n    <div class=\"container-fluid\">\n      <!-- Brand and toggle get grouped for better mobile display -->\n      <div class=\"navbar-header\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n          <span class=\"sr-only\">Toggle navigation</span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"#\">{{ title }}</a>\n      </div>\n\n      <!-- Collect the nav links, forms, and other content for toggling -->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <form class=\"navbar-form navbar-left\">\n          <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n          </div>\n\n        </form>\n        <ul class=\"nav navbar-nav navbar-right\">\n          <li *ngIf=\"!auth.authenticated()\">\n            <form class=\"navbar-form\">\n              <button type=\"button\" class=\"btn btn-primary\" (click)=\"login()\">Sign in</button>\n            </form>\n          </li>\n          <li class=\"dropdown\" *ngIf=\"auth.authenticated()\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">{{ username }} <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a href=\"#\">My Profile</a></li>\n              <li><a href=\"#\">Another action</a></li>\n              <li><a href=\"#\">Something else here</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a (click)=\"logout()\">Log Out</a></li>\n            </ul>\n          </li>\n        </ul>\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n\n</div>\n"
 
 /***/ }),
 
 /***/ 742:
 /***/ (function(module, exports) {
 
+module.exports = "<div class=container>\n  <form #formRef=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"problemName\">Problem name</label>\n      <input name=\"problemName\" id=\"problemName\" class=\"form-control\"\n      type=\"text\" required placeholder=\"Enter problem name\"\n      [(ngModel)]=\"newProblem.name\">\n    </div>\n    <div class=\"form-group\">\n      <label for=\"problemDesc\">Problem description</label>\n      <textarea name=\"problemDesc\" id=\"problemDesc\" class=\"form-control\"\n      placeholder=\"Enter problem description\"\n      [(ngModel)]=\"newProblem.desc\" rows=\"3\">\n      </textarea>\n    </div>\n    <div class=\"from-group\">\n      <label for=\"difficulty\">Difficulty</label>\n      <select class=\"form-control\" id=\"difficulty\" name=\"difficulty\"\n      [(ngModel)]=\"newProblem.difficulty\">\n        <option *ngFor=\"let difficulty of difficulties\" [value]=\"difficulty\">\n          {{ difficulty }}\n        </option>\n      </select>\n    </div>\n    <br/>\n    <div class=\"row\">\n      <div class=\"col-md-12\">\n        <button type=\"submit\" class=\"btn btn-primary pull-right\"\n        (click)=\"addProblem()\">Add problem</button>\n      </div>\n    </div>\n  </form>\n</div>\n<br/>\n"
+
+/***/ }),
+
+/***/ 743:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\" *ngIf=\"problem\">\n  <div class=\"col-xs-12 col-md-4\">\n    <h2>\n      {{ problem.id }}. {{ problem.name }}\n    </h2>\n    <p>\n      {{ problem.desc }}\n    </p>\n  </div>\n  <div class=\"hidden-xs col-sm-12 col-md-8\">\n    <app-editor></app-editor>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ 744:
+/***/ (function(module, exports) {
+
 module.exports = "<app-new-problem></app-new-problem>\n<div class=\"container\">\n  <div class='list-group'>\n    <a class='list-group-item' *ngFor='let problem of problems'\n      [routerLink]=\"['/problems', problem.id]\">\n      <span class=\"{{'pull-left label difficulty diff-' + ((problem.difficulty === undefined)?'':problem.difficulty).toLocaleLowerCase()}}\">{{problem.difficulty}}</span>\n      <strong class='title'>{{problem.id}}. {{problem.name}}</strong>\n    </a>\n  </div>\n</div>\n"
 
 /***/ })
 
-},[1008]);
+},[1010]);
 //# sourceMappingURL=main.bundle.map

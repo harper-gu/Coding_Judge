@@ -18,13 +18,13 @@ module.exports = function(io) {
 
     var sessionId = socket.handshake.query['sessionId'];
 
-    if (sessionId in collaboration) {
-      collaboration[sessionId]['participants'].push(socket.id);
+    if (sessionId in collaborations) {
+      collaborations[sessionId]['participants'].push(socket.id);
     } else {
       redisClient.get(sessionPath+sessionId, function(data) {
         if (data) {  //session exists previously
           console.log('session terminated. pulling back...');
-          collaboration[sessionId] = {
+          collaborations[sessionId] = {
             'cachedInstructions': JSON.parse(data),
             'participants': []
           };
@@ -50,9 +50,11 @@ module.exports = function(io) {
     socket.on('change', delta => {
       console.log('lets change problem '+ socketIdToSessionId[socket.id] + delta);
       let sessionId = socketIdToSessionId[socket.id];
-      collaborations[sessionId][cachedInstructions].push(
-        ['change', delta, Date.now()]
-      );
+      if (sessionId in collaborations) {
+        collaborations[sessionId]['cachedInstructions'].push(
+          ['change', delta, Date.now()]
+        );
+      }
       forwardEvent(socket.id, 'change', delta);
     });
 
@@ -64,7 +66,7 @@ module.exports = function(io) {
     socket.on('restoreBuffer', () => {
       let sessionId = socketIdToSessionId[socket.id];
       if (sessionId in collaborations) {
-        let cachedInstructions = collaborations[sessionId][cachedInstructions]
+        let cachedInstructions = collaborations[sessionId]['cachedInstructions']
           for (let i = 0; i < cachedInstructions.length; i++) {
             socket.emit(cachedInstructions[i][0], cachedInstructions[i][1]);
           }
@@ -86,9 +88,8 @@ module.exports = function(io) {
         if (participants.length === 0) {
           console.log('NO one left. Saving to Redis...');
           let key = sessionPath + sessionId;
-          let value = JSON.stringify(collaborations[sessionId][cachedInstructions]);
-
-          redisClient.set(key, value, redisPrint);
+          let value = JSON.stringify(collaborations[sessionId]['cachedInstructions']);
+          redisClient.set(key, value, console.log);
           redisClient.expire(key, TIMEOUT);
           delete collaborations[sessionId];
         }

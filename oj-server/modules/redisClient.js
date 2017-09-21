@@ -1,3 +1,4 @@
+var redis = require('redis');
 var client = redis.createClient();
 
 function set(key, value, callback) {
@@ -8,7 +9,7 @@ function set(key, value, callback) {
     }
     callback(res);
   });
-})
+}
 
 function get(key, callback) {
   client.get(key, function(err, res) {
